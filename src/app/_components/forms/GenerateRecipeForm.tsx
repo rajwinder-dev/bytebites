@@ -5,7 +5,7 @@ import { uniqueId } from "lodash";
 import { useFieldArray, useForm } from "react-hook-form";
 import { makeARecipe } from "@/app/_actions/recipesActions";
 import Input from "../ui/Input";
-import { IconButton, SecondaryButton } from "../ui/Buttons";
+import { IconButton,  } from "../ui/Buttons";
 import Spinner from "../ui/Spinner";
 import RecipePreview from "../features/recipe/RecipePreview";
 type Data = {
@@ -69,9 +69,9 @@ export default function GenerateRecipeForm() {
         </div>
         <div className="flex justify-center gap-4">
           {/* <PrimaryButton type="submit">Find recipe</PrimaryButton> */}
-          <SecondaryButton type="submit" disabled={isLoading}>
-            Generate with AI
-          </SecondaryButton>
+          {/* <SecondaryButton type="submit" disabled={isLoading}> */}
+          {/* Generate with AI */}
+          {/* </SecondaryButton> */}
         </div>
       </form>
       {isLoading && <Spinner />}

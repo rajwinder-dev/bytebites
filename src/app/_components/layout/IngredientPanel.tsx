@@ -24,7 +24,7 @@ function IngredientPanel({ ingredientList }: props) {
     <div
       className={`absolute bottom-0 right-0 top-[3rem] bg-natural-cream md:relative md:top-0 ${searchPanelHidden || "border-l-2 border-accent"}`}
     >
-      <div className="h-[calc(100vh-7.5rem)] overflow-y-scroll md:h-[calc(100vh-7.7rem)]">
+      <div className="h-[calc(100vh-3rem)] overflow-y-scroll md:h-[calc(100vh-3rem)]">
         {searchPanelHidden || (
           <div className={`w-96 p-4`}>
             <h2 className="pb-0 text-center text-2xl">Filter by Ingredients</h2>
@@ -34,31 +34,21 @@ function IngredientPanel({ ingredientList }: props) {
           </div>
         )}
       </div>
-      {searchPanelHidden || (
-        <div className="p-4 text-center">
-          {clickStatus ? (
-            <Link href={"/generateRecipe/generatedRecipe"}>
-              <PrimaryButton onClick={() => setClickStatus(false)}>
-                View AI recipe
-              </PrimaryButton>
-            </Link>
-          ) : (
-            <SecondaryButton
-              onClick={generateRecipe}
-              className="w-48"
-              disabled={status === "pending"}
-            >
-              {status === "pending" ? (
-                "take a while..."
-              ) : (
-                <span className="flex items-center justify-center gap-1">
-                  Make A.I recipe <IoDiamondOutline /> {recipeCost}
-                </span>
-              )}
-            </SecondaryButton>
-          )}
-        </div>
-      )}
+      {/* {sear
+      {/*         className="w-48" */}
+      {/*         disabled={status === "pending"} */}
+      {/*       > */}
+      {/*         {status === "pending" ? ( */}
+      {/*           "take a while..." */}
+      {/*         ) : ( */}
+      {/*           <span className="flex items-center justify-center gap-1"> */}
+      {/*             Make A.I recipe <IoDiamondOutline /> {recipeCost} */}
+      {/*           </span> */}
+      {/*         )} */}
+      {/*       </SecondaryButton> */}
+      {/*     )} */}
+      {/*   </div> */}
+      {/* )} */}
     </div>
   );
 }

@@ -47,7 +47,7 @@ function MakeRecipeCard() {
     setIsLoading(false);
   }
   return (
-    <div className="col-span-1 flex-1 bg-slate-200 p-4 dark:bg-slate-800 min-h-[248px]">
+    <div className="col-span-1 min-h-[248px] flex-1 bg-slate-200 p-4 dark:bg-slate-800">
       <h1 className="mb-4 text-xl uppercase">make quick recipe</h1>
       <form
         className="flex flex-col justify-between"
@@ -74,9 +74,9 @@ function MakeRecipeCard() {
           ))}
         </div>
         <div className="text-center">
-          <SecondaryButton type="submit" className="w-36">
-            {isLoading ? "take a while..." : "Make A.I recipe"}
-          </SecondaryButton>
+          {/* <SecondaryButton type="submit" className="w-36"> */}
+          {/* {isLoading ? "take a while..." : "Make A.I recipe"} */}
+          {/* </SecondaryButton> */}
         </div>
       </form>
     </div>
