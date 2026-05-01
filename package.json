@@ -6,11 +6,7 @@
     "dev": "next dev --turbopack",
     "start": "next start",
     "lint": "next lint",
-    "build": "next build",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "build": "next build"
   },
   "dependencies": {
     "@auth/d1-adapter": "^1.9.1",
@@ -21,7 +17,6 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@google/generative-ai": "^0.24.0",
-    "@opennextjs/cloudflare": "^1.14.7",
     "@stripe/stripe-js": "^7.3.0",
     "@supabase/supabase-js": "^2.49.1",
     "@tanstack/react-query": "^5.66.9",
