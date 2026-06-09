@@ -4,7 +4,7 @@ import { supabase } from "./supabase";
 
 export async function getIngredientListDB() {
   const { data, error } = await supabase
-    .from("ingredientListForSearch")
+    .from("userIngredientList")
     .select();
 
   if (error) {

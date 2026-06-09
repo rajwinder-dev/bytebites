@@ -7,7 +7,7 @@ import { getUserID } from "@/app/_helper/helper";
 
 export async function getMealPlanningFromDB() {
   const userId = await getUserID();
-  if (!userId) throw new Error("You need to Login");
+  // if (!userId) throw new Error("You need to Login");
   const { data, error } = await supabase
     .from("mealPlanning")
     .select(
