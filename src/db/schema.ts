@@ -1,85 +1,11 @@
-import { pgTable, foreignKey, unique, bigint, timestamp, text, doublePrecision, jsonb, real, boolean, integer, primaryKey, pgPolicy } from "drizzle-orm/pg-core"
+import { pgTable, foreignKey, bigint, timestamp, unique, text, real, boolean, integer, jsonb, doublePrecision, primaryKey, pgPolicy } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
 
-export const extendedIngredients = pgTable("extendedIngredients", {
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).notNull(),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	recipeId: bigint({ mode: "number" }),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	aisle: text(),
-	image: text(),
-	consistency: text(),
-	name: text(),
-	nameClean: text(),
-	original: text(),
-	originalName: text(),
-	amount: doublePrecision(),
-	unit: text(),
-	meta: text().array(),
-	measures: jsonb(),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	uniqueId: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "extendedIngredients_uniqueId_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
-}, (table) => [
-	foreignKey({
-			columns: [table.recipeId],
-			foreignColumns: [bitebytesRecipes.id],
-			name: "extendedIngredients_recipeId_fkey"
-		}),
-	unique("extendedIngredients_uniqueId_key").on(table.uniqueId),
-]);
-
-export const likedRecipes = pgTable("likedRecipes", {
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "likedRecipes_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	userId: bigint({ mode: "number" }),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	recipeId: bigint({ mode: "number" }).notNull(),
-}, (table) => [
-	foreignKey({
-			columns: [table.recipeId],
-			foreignColumns: [bitebytesRecipes.id],
-			name: "likedRecipes_recipeId_fkey"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [bitebytesUser.id],
-			name: "likedRecipes_userId_fkey"
-		}),
-	unique("unique_userid_recipeid2").on(table.userId, table.recipeId),
-]);
-
-export const mealPlanning = pgTable("mealPlanning", {
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "MealPlanning_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	title: text(),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	recipeId: bigint({ mode: "number" }),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	userId: bigint({ mode: "number" }),
-	mealType: text().notNull(),
-	date: timestamp({ withTimezone: true, mode: 'string' }),
-}, (table) => [
-	foreignKey({
-			columns: [table.recipeId],
-			foreignColumns: [bitebytesRecipes.id],
-			name: "MealPlanning_recipeId_fkey"
-		}),
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [bitebytesUser.id],
-			name: "MealPlanning_userId_fkey"
-		}),
-]);
-
 export const requiredIngredients = pgTable("requiredIngredients", {
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "RequirededIngredint_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "RequirededIngredint_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	userId: bigint({ mode: "number" }),
@@ -108,7 +34,7 @@ export const requiredIngredients = pgTable("requiredIngredients", {
 
 export const savedRecipes = pgTable("savedRecipes", {
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "savedRecipes_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "savedRecipes_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	userId: bigint({ mode: "number" }),
@@ -171,14 +97,88 @@ export const bitebytesRecipes = pgTable("bitebytesRecipes", {
 	spoonacularScore: doublePrecision(),
 	spoonacularSourceUrl: text(),
 	imageType: text(),
-	lnaguage: text(),
+	language: text(),
 }, (table) => [
 	unique("bitebytesRecipes_title_key").on(table.title),
 ]);
 
+export const extendedIngredients = pgTable("extendedIngredients", {
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	id: bigint({ mode: "number" }).notNull(),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	recipeId: bigint({ mode: "number" }),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	aisle: text(),
+	image: text(),
+	consistency: text(),
+	name: text(),
+	nameClean: text(),
+	original: text(),
+	originalName: text(),
+	amount: doublePrecision(),
+	unit: text(),
+	meta: text().array(),
+	measures: jsonb(),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	uniqueId: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "extendedIngredients_uniqueId_seq", startWith: 1, increment: 1, minValue: 1,  }),
+}, (table) => [
+	foreignKey({
+			columns: [table.recipeId],
+			foreignColumns: [bitebytesRecipes.id],
+			name: "extendedIngredients_recipeId_fkey"
+		}),
+	unique("extendedIngredients_uniqueId_key").on(table.uniqueId),
+]);
+
+export const likedRecipes = pgTable("likedRecipes", {
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "likedRecipes_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	userId: bigint({ mode: "number" }),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	recipeId: bigint({ mode: "number" }).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.recipeId],
+			foreignColumns: [bitebytesRecipes.id],
+			name: "likedRecipes_recipeId_fkey"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [bitebytesUser.id],
+			name: "likedRecipes_userId_fkey"
+		}),
+	unique("unique_userid_recipeid2").on(table.userId, table.recipeId),
+]);
+
+export const mealPlanning = pgTable("mealPlanning", {
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "MealPlanning_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+	title: text(),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	recipeId: bigint({ mode: "number" }),
+	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
+	userId: bigint({ mode: "number" }),
+	mealType: text().notNull(),
+	date: timestamp({ withTimezone: true, mode: 'string' }),
+}, (table) => [
+	foreignKey({
+			columns: [table.recipeId],
+			foreignColumns: [bitebytesRecipes.id],
+			name: "MealPlanning_recipeId_fkey"
+		}),
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [bitebytesUser.id],
+			name: "MealPlanning_userId_fkey"
+		}),
+]);
+
 export const userIngredientList = pgTable("userIngredientList", {
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "customIngredients_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807 }),
+	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "customIngredients_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	userId: bigint({ mode: "number" }),
@@ -208,7 +208,7 @@ export const countries = pgTable("countries", {
 
 export const bitebytesUser = pgTable("bitebytesUser", {
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-	id: bigint({ mode: "number" }).generatedByDefaultAsIdentity({ name: "bitebytesuser_id_seq", startWith: 1, increment: 1, minValue: 1, maxValue: 9223372036854775807, cache: 1 }),
+	id: bigint({ mode: "number" }).generatedByDefaultAsIdentity({ name: "bitebytesuser_id_seq", startWith: 1, increment: 1, minValue: 1,  cache: 1 }),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 	email: text().notNull(),
 	password: text(),

@@ -1,51 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { bitebytesRecipes, extendedIngredients, likedRecipes, bitebytesUser, mealPlanning, requiredIngredients, savedRecipes, userIngredientList } from "./schema";
-
-export const extendedIngredientsRelations = relations(extendedIngredients, ({one, many}) => ({
-	bitebytesRecipe: one(bitebytesRecipes, {
-		fields: [extendedIngredients.recipeId],
-		references: [bitebytesRecipes.id]
-	}),
-	requiredIngredients: many(requiredIngredients),
-}));
-
-export const bitebytesRecipesRelations = relations(bitebytesRecipes, ({many}) => ({
-	extendedIngredients: many(extendedIngredients),
-	likedRecipes: many(likedRecipes),
-	mealPlannings: many(mealPlanning),
-	requiredIngredients: many(requiredIngredients),
-	savedRecipes: many(savedRecipes),
-}));
-
-export const likedRecipesRelations = relations(likedRecipes, ({one}) => ({
-	bitebytesRecipe: one(bitebytesRecipes, {
-		fields: [likedRecipes.recipeId],
-		references: [bitebytesRecipes.id]
-	}),
-	bitebytesUser: one(bitebytesUser, {
-		fields: [likedRecipes.userId],
-		references: [bitebytesUser.id]
-	}),
-}));
-
-export const bitebytesUserRelations = relations(bitebytesUser, ({many}) => ({
-	likedRecipes: many(likedRecipes),
-	mealPlannings: many(mealPlanning),
-	requiredIngredients: many(requiredIngredients),
-	savedRecipes: many(savedRecipes),
-	userIngredientLists: many(userIngredientList),
-}));
-
-export const mealPlanningRelations = relations(mealPlanning, ({one}) => ({
-	bitebytesRecipe: one(bitebytesRecipes, {
-		fields: [mealPlanning.recipeId],
-		references: [bitebytesRecipes.id]
-	}),
-	bitebytesUser: one(bitebytesUser, {
-		fields: [mealPlanning.userId],
-		references: [bitebytesUser.id]
-	}),
-}));
+import { bitebytesRecipes, requiredIngredients, bitebytesUser, extendedIngredients, savedRecipes, likedRecipes, mealPlanning, userIngredientList } from "./schema";
 
 export const requiredIngredientsRelations = relations(requiredIngredients, ({one}) => ({
 	bitebytesRecipe: one(bitebytesRecipes, {
@@ -62,6 +16,30 @@ export const requiredIngredientsRelations = relations(requiredIngredients, ({one
 	}),
 }));
 
+export const bitebytesRecipesRelations = relations(bitebytesRecipes, ({many}) => ({
+	requiredIngredients: many(requiredIngredients),
+	savedRecipes: many(savedRecipes),
+	extendedIngredients: many(extendedIngredients),
+	likedRecipes: many(likedRecipes),
+	mealPlannings: many(mealPlanning),
+}));
+
+export const bitebytesUserRelations = relations(bitebytesUser, ({many}) => ({
+	requiredIngredients: many(requiredIngredients),
+	savedRecipes: many(savedRecipes),
+	likedRecipes: many(likedRecipes),
+	mealPlannings: many(mealPlanning),
+	userIngredientLists: many(userIngredientList),
+}));
+
+export const extendedIngredientsRelations = relations(extendedIngredients, ({one, many}) => ({
+	requiredIngredients: many(requiredIngredients),
+	bitebytesRecipe: one(bitebytesRecipes, {
+		fields: [extendedIngredients.recipeId],
+		references: [bitebytesRecipes.id]
+	}),
+}));
+
 export const savedRecipesRelations = relations(savedRecipes, ({one}) => ({
 	bitebytesRecipe: one(bitebytesRecipes, {
 		fields: [savedRecipes.recipeId],
@@ -69,6 +47,28 @@ export const savedRecipesRelations = relations(savedRecipes, ({one}) => ({
 	}),
 	bitebytesUser: one(bitebytesUser, {
 		fields: [savedRecipes.userId],
+		references: [bitebytesUser.id]
+	}),
+}));
+
+export const likedRecipesRelations = relations(likedRecipes, ({one}) => ({
+	bitebytesRecipe: one(bitebytesRecipes, {
+		fields: [likedRecipes.recipeId],
+		references: [bitebytesRecipes.id]
+	}),
+	bitebytesUser: one(bitebytesUser, {
+		fields: [likedRecipes.userId],
+		references: [bitebytesUser.id]
+	}),
+}));
+
+export const mealPlanningRelations = relations(mealPlanning, ({one}) => ({
+	bitebytesRecipe: one(bitebytesRecipes, {
+		fields: [mealPlanning.recipeId],
+		references: [bitebytesRecipes.id]
+	}),
+	bitebytesUser: one(bitebytesUser, {
+		fields: [mealPlanning.userId],
 		references: [bitebytesUser.id]
 	}),
 }));

@@ -55,7 +55,6 @@ export async function getRecipeDetails(id: number) {
     const data = await res.json();
     // this will add recipe to database when USER VIEW
     await addRecipeToDB(data);
-    console.log(data)
     return data;
 
   } catch (error) {
