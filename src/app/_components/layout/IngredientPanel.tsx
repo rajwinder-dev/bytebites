@@ -6,12 +6,12 @@ import { useEffect, useState } from "react";
 import Input from "../ui/Input";
 import { IoDiamondOutline } from "react-icons/io5";
 import { SecondaryButton } from "../ui/Buttons";
+import { recipeCost } from "@/app/_config/aiConfig";
 
 function IngredientPanel() {
   const { searchPanelHidden } = useGUIState();
-  const { generateRecipe, status, } = useRecipeData();
+  const { generateRecipe, status } = useRecipeData();
   const [clickStatus, setClickStatus] = useState(false);
-  const recipeCost = 20; // TODO: replace with actual cost value/source
 
   useEffect(() => {
     if (status === "success") setClickStatus(true);

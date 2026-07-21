@@ -5,9 +5,14 @@ export async function askAi(question: string) {
   if (!apiKey) throw new Error("GOOGLE_AI_API_KEY is not defined");
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const result = await model.generateContent(question);
-  return result.response.text();
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
+
+    const result = await model.generateContent(question);
+    return result.response.text();
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function generateAiImage(prompt: string) {
