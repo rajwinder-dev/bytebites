@@ -1,0 +1,1 @@
+ALTER TABLE "bitebytesUser" ADD COLUMN "userPoints" bigint DEFAULT 0;

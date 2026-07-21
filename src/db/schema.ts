@@ -4,14 +4,10 @@ import { sql } from "drizzle-orm"
 
 
 export const requiredIngredients = pgTable("requiredIngredients", {
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	id: bigint({ mode: "number" }).primaryKey().generatedByDefaultAsIdentity({ name: "RequirededIngredint_id_seq", startWith: 1, increment: 1, minValue: 1,  }),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	userId: bigint({ mode: "number" }),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	uniqueIngredientId: bigint({ mode: "number" }),
-	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	recipeId: bigint({ mode: "number" }),
 	requiredDate: timestamp({ withTimezone: true, mode: 'string' }),
 }, (table) => [
@@ -214,6 +210,7 @@ export const bitebytesUser = pgTable("bitebytesUser", {
 	password: text(),
 	username: text(),
 	image: text().default('/user.png'),
+  userPoints: bigint({ mode: "number" }).default(0),
 }, (table) => [
 	primaryKey({ columns: [table.id, table.email], name: "bitebytesUser_pkey"}),
 	unique("bitebytesUser_id_key").on(table.id),

@@ -82,8 +82,6 @@ export async function makeARecipe(data: {
   // * temporary typescript fix
   const userData = await getUserDataDB(["userPoints"]) as { userPoints?: number };
   const userPoints = userData?.userPoints;
-  if(!userPoints) return null
-  console.log(userPoints);
   if (Number(userPoints) <= 0) throw new Error("You don't have enough points ");
 
   const ingredients = data.ingredient.map((item) => item.value).join(", ");

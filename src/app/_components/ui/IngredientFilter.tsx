@@ -1,12 +1,11 @@
 import { IngredientListTags } from "@/app/_types/RecipeTypes";
 import IngredientFilterCard from "./IngredientFilterCard";
-interface props {
-  ingredientList: IngredientListTags[];
-}
-function IngredientFilter({ ingredientList }: props) {
+import { ingredientFilterTags } from "@/app/_data/IngredientListTags";
+
+function IngredientFilter() {
   return (
     <>
-      {ingredientList.map((item) => (
+      {ingredientFilterTags.map((item) => (
         <IngredientFilterCard item={item} key={item.type} />
       ))}
     </>
