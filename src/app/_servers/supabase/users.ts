@@ -1,7 +1,6 @@
+import { comparePassword, generateHash, getUserID } from "@/app/_helper/helper";
 import { UpdatePasswordForm, UpdateProfileForm } from "@/app/_types/FormData";
 import { supabase } from "./supabase";
-import { BUCKET_URL } from "@/app/_config/supabaseConfig";
-import { comparePassword, generateHash, getUserID } from "@/app/_helper/helper";
 
 export async function getUserDB(email: string) {
   const { data, error } = await supabase
@@ -17,7 +16,7 @@ export async function getUserDB(email: string) {
 }
 export async function getUserDataDB(requiredFields: string[]) {
   const userId = await getUserID();
-  if (!userId) return {}
+  if (!userId) return {};
   const { data, error } = await supabase
     .from("bitebytesUser")
     .select(`${requiredFields.join(", ")}`)
@@ -56,7 +55,6 @@ export async function UpdateUserDB(userData: UpdateProfileForm) {
 
   const inputObject: Partial<UpdateProfileForm> = {};
 
-  // Add fields to update only if they exist
   if (typeof userData.userPoints === "number") {
     inputObject.userPoints = userData.userPoints;
   }
@@ -65,7 +63,7 @@ export async function UpdateUserDB(userData: UpdateProfileForm) {
     inputObject.username = userData.username;
   }
 
-  if (userData.file && userData.file?.length > 0) {
+  if (userData.file && userData.file.length > 0) {
     const file = userData.file[0];
     const fileType = file.type;
 
@@ -73,40 +71,37 @@ export async function UpdateUserDB(userData: UpdateProfileForm) {
       throw new Error("The uploaded file is not an image.");
     }
 
-    const imagePath = `${BUCKET_URL}/${file.name}`;
-    inputObject.image = imagePath;
-  }
+    const extension = file.name.split(".").pop()?.toLowerCase() || "png";
+    const imagePath = `${Date.now()}.${extension}`;
 
-  console.log("Updating user with:", inputObject);
+    const uploadRes = await supabase.storage
+      .from("avatarsBiteBytes")
+      .upload(imagePath, file, {
+        contentType: fileType,
+        upsert: false,
+      });
+
+    if (uploadRes.error) {
+      console.error("File upload error:", uploadRes.error);
+      throw new Error("Failed to upload image.");
+    }
+
+    const publicUrl = supabase.storage
+      .from("avatarsBiteBytes")
+      .getPublicUrl(imagePath).data.publicUrl;
+
+    inputObject.image = publicUrl;
+  }
 
   const { data, error } = await supabase
     .from("bitebytesUser")
     .update(inputObject)
-    .eq("id", userId) // FIXED: now using correct ID
+    .eq("id", userId)
     .select();
 
   if (error) {
     console.error("Database update error:", error);
     throw new Error("Failed to update user.");
-  }
-
-  // Optional: upload the image after successful DB update
-  if (userData.file && userData.file?.length > 0) {
-    const file = userData.file[0];
-    const imagePath = `${BUCKET_URL}/${file.name}`.split("//")[1];
-
-    const uploadRes = await supabase.storage
-      .from("avatarsBiteBytes")
-      .upload(imagePath, file);
-
-    if (uploadRes.error) {
-      if (uploadRes.error.message.includes("Duplicate")) {
-        return uploadRes.error.message;
-      } else {
-        console.error("File upload error:", uploadRes.error);
-        throw new Error("Failed to upload image.");
-      }
-    }
   }
 
   return data;
@@ -140,7 +135,10 @@ export async function changeUserPasswordDB(inputData: UpdatePasswordForm) {
   }
 }
 // *temporary solution  is (slow)
-export async function updateUserPointsDB(pointsToAdd: number, email: string | null) {
+export async function updateUserPointsDB(
+  pointsToAdd: number,
+  email: string | null,
+) {
   if (!email || typeof pointsToAdd !== "number") {
     throw new Error("Missing or invalid email or points.");
   }
