@@ -1,7 +1,6 @@
 "use server";
 import { recipeCost } from "../_config/aiConfig";
 import { RANDOM_RECIPE_COUNT, USE_API } from "../_config/foodApiConfig";
-import { BUCKET_URL_AI } from "../_config/supabaseConfig";
 import {
   recipeData,
   recipeDetails,
@@ -99,13 +98,10 @@ export async function makeARecipe(data: {
   const generatedRecipe = aiOutputToObject(generatedAIData);
   if (!generatedRecipe?.title) throw new Error("Failed to generate recipe ");
   const generatedRecipeImage = await generateAiImage(generatedRecipe.title);
-  const imagePath = await uploadAIimage(
-    generatedRecipeImage,
-    generatedRecipe.id.toString(),
-  );
+  const imageUrl = await uploadAIimage(generatedRecipeImage, generatedRecipe.id.toString());
   const recipeData = {
     ...generatedRecipe,
-    image: `${BUCKET_URL_AI}/${imagePath}`,
+    image: imageUrl,
   };
   // decrement one point
   if (session?.user?.email) updateUserPointsDB(-recipeCost, session?.user?.email);
