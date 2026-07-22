@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "start": "next start",
+    "start": "next start -p 8082",
     "lint": "next lint",
     "build": "next build"
   },
